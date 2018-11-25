@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abverma/fitLog2.0.git"
+  },
+  "author": "Abhishek Vema",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abverma/fitLog2.0/issues"
+  },
+  "homepage": "https://github.com/abverma/fitLog2.0#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.10",
+    "qs": "^6.5.2"
+  }
+}
