@@ -5,11 +5,13 @@ const {
 let qs = require('qs');
 let mongoDb;
 
+const COLLECTION_NAME = 'logs';
+
 exports.createLogs = function(req, res) {
     let db = model.getDbConnection();
     if (db) {
         let payload = req.body;
-        create(payload, 'log', db)
+        create(payload, COLLECTION_NAME, db)
             .then(function(data) {
                 res.send({
                     success: true,
@@ -27,14 +29,28 @@ exports.createLogs = function(req, res) {
 }
 
 exports.getAllLogs = function(req, res) {
+    let limit = req.query['limit'];
+    let start = req.query['start'];
+
+    if (limit) {
+        limit = parseInt(limit);
+    }
+
+    if (start) {
+        start = parseInt(start);
+    }
+
     let db = model.getDbConnection();
     if (db) {
-        read('log', {}, db)
-            .then(function(data) {
+        let readQuery = read(COLLECTION_NAME, {}, db, limit, start);
+        let countQuery = count(COLLECTION_NAME, {}, db);
+
+        Promise.all([readQuery, countQuery])
+            .then(function(result) {
                 res.send({
                     success: true,
-                    data: data,
-                    count: data.length,
+                    data: result[0],
+                    count: result[1],
                     message: 'Records fetched'
                 });
             })
@@ -55,7 +71,7 @@ exports.deleteLogs = function(req, res) {
             _id: ObjectId(payload._id)
         }
 
-        remove(query, 'log', db)
+        remove(query, COLLECTION_NAME, db)
             .then(function(data) {
                 res.send({
                     success: true,
@@ -88,7 +104,7 @@ exports.updateLog = function(req, res) {
         let setObj = {
             $set: set
         }
-        update(query, setObj, 'log', db)
+        update(query, setObj, COLLECTION_NAME, db)
             .then(function(data) {
                 res.send({
                     success: true,
@@ -106,16 +122,28 @@ exports.updateLog = function(req, res) {
 }
 
 
-let read = function(collection, query, db) {
+let read = function(collection, query, db, limit, start) {
     return new Promise(function(resolve, reject) {
-        db.collection(collection).find(query).sort({_id: 1}).toArray(function(err, data) {
-            if (err) {
-                reject(err);
-            } else {
+        db.collection(collection).find(query).skip(start).limit(limit).sort({date: -1}).toArray()
+            .then(function(data) {
                 resolve(data);
-            }
-        });
-    })
+            })
+            .catch(function(err){
+                reject(err);
+            });
+    });
+}
+
+let count = function(collection, query, db) {
+    return new Promise(function(resolve, reject) {
+        db.collection(collection).countDocuments(query)
+            .then(function(count){
+                resolve(count);
+            })
+            .catch(function(err){
+                reject(err);
+            });
+    });
 }
 
 let create = function(records, collection, db) {
@@ -125,18 +153,18 @@ let create = function(records, collection, db) {
                 records = [records];
             }
 
-            db.collection(collection).insertMany(records, function(err, data) {
-                if (err) {
-                    reject(err);
-                } else {
-                    let msg = data.length + ' record(s) inserted.'
+            db.collection(collection).insertMany(records)
+                .then(function(data){
+                    let msg = data.insertedCount + ' record(s) inserted.'
                     console.log(msg);
                     resolve({
                         success: true,
                         message: msg
                     });
-                }
-            });
+                })
+                .catch(function(err){
+                    reject(err);
+                })
         } else {
             resolve();
         }
@@ -148,18 +176,18 @@ let remove = function(query, collection, db) {
         if (db) {
             console.log('delete query');
             console.log(query);
-            db.collection(collection).deleteMany(query, function(err, data) {
-                if (err) {
-                    reject(err);
-                } else {
-                    let msg = data.result.n + ' record(s) deleted.'
+            db.collection(collection).deleteMany(query)
+                .then(function(result){
+                    let msg = result.deletedCount + ' record(s) deleted.'
                     console.log(msg);
                     resolve({
                         success: true,
                         message: msg
                     });
-                }
-            });
+                })
+                .catch(function(err){
+                    reject(err);
+                })
         } else {
             resolve();
         }

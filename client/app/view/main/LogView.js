@@ -20,9 +20,7 @@ Ext.define('FitLog.view.main.Log', {
         checkOnly: true,
         mode: 'SIMPLE'
     },
-    store: {
-        type: 'log'
-    },
+    store: 'idLogStore',
     tbar: {
         items: ['->', {
             xtype: 'button',
@@ -89,7 +87,9 @@ Ext.define('FitLog.view.main.Log', {
             text: 'Add Column',
             handler: function() {
                 var grid = this.up('grid');
-                var column = Ext.create('Ext.grid.column.Column', { text: 'AButton' });
+                var column = Ext.create('Ext.grid.column.Column', {
+                    text: 'AButton'
+                });
                 // add column to the end
                 grid.headerCt.insert(++grid.columns.length, column);
                 // refresh view
@@ -97,6 +97,12 @@ Ext.define('FitLog.view.main.Log', {
             }
         }]
     },
+    bbar: Ext.create('Ext.PagingToolbar', {
+        store: 'idLogStore',
+        displayInfo: true,
+        displayMsg: 'Displaying topics {0} - {1} of {2}',
+        emptyMsg: "No topics to display",
+    }),
     columns: [{
         xtype: 'datecolumn',
         text: 'Date',
@@ -115,7 +121,25 @@ Ext.define('FitLog.view.main.Log', {
             xtype: 'textfield'
         },
         align: 'left',
-        flex: .4
+        flex: .3
+    }, {
+        text: 'Sets',
+        dataIndex: 'sets',
+        editor: {
+            xtype: 'numberfield',
+            hideTrigger: true
+        },
+        align: 'left',
+        flex: .2
+    }, {
+        text: 'Reps',
+        dataIndex: 'reps',
+        editor: {
+            xtype: 'numberfield',
+            hideTrigger: true
+        },
+        align: 'left',
+        flex: .2
     }, {
         text: 'Cardio',
         dataIndex: 'cardio',
@@ -127,10 +151,13 @@ Ext.define('FitLog.view.main.Log', {
             forceSelection: true,
             anyMatch: true,
             store: {
-                data: [
-                    { display: 'Yes', value: true },
-                    { display: 'No', value: false },
-                ]
+                data: [{
+                    display: 'Yes',
+                    value: true
+                }, {
+                    display: 'No',
+                    value: false
+                }, ]
             }
         },
         align: 'left',
@@ -152,10 +179,13 @@ Ext.define('FitLog.view.main.Log', {
             valueField: 'value',
 
             store: {
-                data: [
-                    { display: 'Yes', value: true },
-                    { display: 'No', value: false },
-                ]
+                data: [{
+                    display: 'Yes',
+                    value: true
+                }, {
+                    display: 'No',
+                    value: false
+                }, ]
             }
         },
         align: 'left',
@@ -177,10 +207,13 @@ Ext.define('FitLog.view.main.Log', {
             valueField: 'value',
 
             store: {
-                data: [
-                    { display: 'Yes', value: true },
-                    { display: 'No', value: false },
-                ]
+                data: [{
+                    display: 'Yes',
+                    value: true
+                }, {
+                    display: 'No',
+                    value: false
+                }, ]
             }
         },
         align: 'left',

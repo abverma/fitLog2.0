@@ -1,4 +1,6 @@
-/build
+/build/testing
+/build/temp
+/build/development
 bootstrap.*
 classic.json*
 modern.json*
