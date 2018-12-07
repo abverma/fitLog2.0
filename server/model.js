@@ -7,7 +7,7 @@ var database;
 
 MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
 			  if (err) {
-			  	reject(err);
+			  	console.log(err);
 			  } else {
 			  	dbConnection = db;
 				database = db.db('fitlog');

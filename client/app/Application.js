@@ -5,15 +5,14 @@
  */
 Ext.define('FitLog.Application', {
     extend: 'Ext.app.Application',
-    
+
     name: 'FitLog',
 
-    stores: [
-        // TODO: add global / shared stores here
-    ],
-    
-    launch: function () {
-        // TODO - Launch the application
+    quickTips: false,
+    platformConfig: {
+        desktop: {
+            quickTips: true
+        }
     },
 
     onAppUpdate: function () {

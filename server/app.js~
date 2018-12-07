@@ -9,7 +9,7 @@ let myLogger = function(req, res, next) {
     console.log(req.method, req.url);
     next();
 }
-let clientDir = path.join(__dirname, '../client/build/production/FitLog/'); //NB
+let clientDir = path.join(__dirname, '../testApp/'); //NB
 
 app.use(myLogger);
 app.use(bodyParser.json()); // for parsing application/json
