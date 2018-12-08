@@ -1,14 +1,16 @@
 let MongoClient = require('mongodb').MongoClient;
 let config = require('./config');
 
-const DBNAME = config.mongoDBName;
+const DBNAME = config.mongoDB;
+const TESTDBNAME = config.mongoTestDB;
+const URI = config.mongoDBUri;
 
 function DB() {
     this.db = null;
     this.connection = null;
 }
 
-DB.prototype.connect = function(uri) {
+DB.prototype.connect = function() {
 
     let _this = this;
 
@@ -19,13 +21,19 @@ DB.prototype.connect = function(uri) {
         } else {
             let __this = _this;
 
-            MongoClient.connect(uri, { useNewUrlParser: true })
+            MongoClient.connect(URI, { useNewUrlParser: true })
                 .then(function(database) {
-                    __this.db = database.db(DBNAME);
+                	//console.log(process.env.NODE_ENV);
+                	if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'test') {
+                    	__this.db = database.db(TESTDBNAME);
+                	} else {
+                    	__this.db = database.db(DBNAME);
+                	}
                     __this.connection = database;
                     resolve();
                 })
                 .catch(function(err) {
+                	console.log(err);
                     console.log('Error connecting: ' + err.message);
                     reject(err.message);
                 })
@@ -34,9 +42,14 @@ DB.prototype.connect = function(uri) {
 
 }
 
-DB.prototype.find = function(collection, query, limit, start, sort) {
+DB.prototype.find = function(collection, options) {
 
 	let _this = this;
+
+	let {query} = options;
+	let {start} = options;
+	let {limit} = options;
+	let {sort} = options;
 
 	if (query === undefined) {
     	query = {};
@@ -98,7 +111,7 @@ DB.prototype.delete = function(collection, query) {
 
         return new Promise(function(resolve, reject) {
 
-            if (Object.keys(query).length = 0) {
+            if (Object.keys(query).length = 0 && process.env.NODE_ENV !== 'test') {
                 reject('Delete all is not allowed.');
             } else {
                 _this.db.collection(collection).deleteMany(query)

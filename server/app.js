@@ -23,10 +23,12 @@ app.get('/', function(req, res) {
   res.sendfile(path.join(clientDir, 'index.html'));
 });
 
-app.get('/logs', logs.getAllLogs);
+app.get('/logs', logs.getLogs);
 app.post('/logs', logs.createLogs);
 app.delete('/logs/:id', logs.deleteLogs);
 app.put('/logs/:id', logs.updateLog);
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
+
+module.exports = app;

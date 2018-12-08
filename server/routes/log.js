@@ -1,15 +1,17 @@
-const {ObjectId} = require('mongodb');
+let { ObjectId } = require('mongodb');
+let Log = require('../models/log').Log;
 let qs = require('qs');
-let DB = require('../mongoDb').DB;
-let {mongoDBUri} = require('../config');
 
-const COLLECTION_NAME = 'logs';
+exports.getLogs = function(req, res) {
 
 
-exports.getAllLogs = function(req, res) {
-
-    let {limit} = req.query;
-    let {start} = req.query;
+    let log = new Log();
+    let {
+        limit
+    } = req.query;
+    let {
+        start
+    } = req.query;
 
     if (limit) {
         limit = parseInt(limit);
@@ -23,18 +25,18 @@ exports.getAllLogs = function(req, res) {
         date: -1
     }
 
-    let database = new DB;
 
-    database.connect(mongoDBUri)
-        .then(function() {
-            let readQuery = database.find(COLLECTION_NAME, {}, limit, start, sort);
-            let countQuery = database.countDocuments(COLLECTION_NAME);
+    let options = {
+        limit: limit,
+        start: start,
+        sort: sort
+    }
 
-            return Promise.all([readQuery, countQuery]);
-        })
+    let readQuery = log.find(options);
+    let countQuery = log.count();
+
+    Promise.all([readQuery, countQuery])
         .then(function(result) {
-            database.close();
-
             res.send({
                 success: true,
                 data: result[0],
@@ -43,57 +45,39 @@ exports.getAllLogs = function(req, res) {
             });
         })
         .catch(function(err) {
-            if (database) {
-                database.close();
-            }
             handleErrorResponse(err, res);
         });
 }
 
 exports.createLogs = function(req, res) {
 
-    let database = new DB;
     let payload = req.body;
 
-    database.connect(mongoDBUri)
-        .then(function() {
-            return database.insertMany(COLLECTION_NAME, payload)
-        })
-        .then(function(data) {
-            database.close();
+    let log = new Log();
 
+    log.create(payload)
+        .then(function(data) {
             res.send({
                 success: true,
                 data: data,
-                message: 'Records inserted'
+                message: 'Records created'
             });
         })
         .catch(function(err) {
-            if (database) {
-                database.close();
-            }
-            console.log(err);
             handleErrorResponse(err, res);
         });
 }
 
-
-
 exports.deleteLogs = function(req, res) {
 
-    let database = new DB;
     let payload = req.body;
     let query = {
         _id: ObjectId(payload._id)
     }
+    let log = new Log();
 
-    database.connect(mongoDBUri)
-        .then(function() {
-           return database.delete(COLLECTION_NAME, query);
-        })
+    log.remove(query)
         .then(function(data) {
-            database.close();
-
             res.send({
                 success: true,
                 data: data,
@@ -101,13 +85,12 @@ exports.deleteLogs = function(req, res) {
             });
         })
         .catch(function(err) {
-            console.log(err);
             handleErrorResponse(err, res);
-        });   
+        });
 }
 
 exports.updateLog = function(req, res) {
-    let database = new DB;
+    
     let payload = req.body;
     let set = Object.assign({}, payload);
 
@@ -119,14 +102,10 @@ exports.updateLog = function(req, res) {
     let setObj = {
         $set: set
     }
+    let log = new Log();
 
-    database.connect(mongoDBUri)
-        .then(function() {
-            return database.update(COLLECTION_NAME, query, setObj);
-        })
+    log.update(query, setObj)
         .then(function(data) {
-            database.close();
-
             res.send({
                 success: true,
                 data: data,
@@ -134,12 +113,13 @@ exports.updateLog = function(req, res) {
             });
         })
         .catch(function(err) {
-            console.log(err);
             handleErrorResponse(err, res);
         });
 }
 
 let handleErrorResponse = function(err, res) {
+    console.log(err);
+
     res.send({
         success: false,
         error: err.message

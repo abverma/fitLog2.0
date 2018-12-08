@@ -1,0 +1,99 @@
+/* 1 */
+{
+    "_id" : ObjectId("5bfaf50f9bd67435b44a7f48"),
+    "cardio" : false,
+    "hiit" : true,
+    "abs" : "Yes",
+    "date" : "2018-11-25T00:00:00",
+    "workout" : "Chest & Tri",
+    "comments" : "6 sets, 3 progressions\n",
+    "reps" : 10,
+    "sets" : 6
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("5bfafb639bd67435b44a7f49"),
+    "cardio" : false,
+    "hiit" : true,
+    "abs" : false,
+    "date" : "2018-11-26T00:00:00",
+    "workout" : "Legs & Shoulders"
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("5bfc48e720d37359230f473f"),
+    "cardio" : false,
+    "hiit" : true,
+    "abs" : false,
+    "date" : "2018-11-13T00:00:00",
+    "workout" : "Back & Bi",
+    "comments" : "Isolation\n"
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("5bfc48e720d37359230f4740"),
+    "cardio" : false,
+    "hiit" : true,
+    "abs" : false,
+    "date" : "2018-11-12T00:00:00",
+    "workout" : "Chest & Tri"
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("5bfc48e720d37359230f4741"),
+    "cardio" : false,
+    "hiit" : false,
+    "abs" : true,
+    "date" : "2018-11-11T00:00:00",
+    "workout" : "Legs",
+    "comments" : "+Stretch\n"
+}
+
+/* 6 */
+{
+    "_id" : ObjectId("5bfc48e720d37359230f4742"),
+    "cardio" : false,
+    "hiit" : false,
+    "abs" : true,
+    "date" : "2018-11-10T00:00:00",
+    "workout" : "Legs",
+    "comments" : "+Stretch\n"
+}
+
+/* 7 */
+{
+    "_id" : ObjectId("5bfc4afa20d37359230f4743"),
+    "cardio" : false,
+    "hiit" : false,
+    "abs" : true,
+    "date" : "2018-11-24T00:00:00",
+    "workout" : "Biceps & Tri"
+}
+
+/* 8 */
+{
+    "_id" : ObjectId("5c0b0476157d84344135c705"),
+    "cardio" : false,
+    "hiit" : false,
+    "abs" : false,
+    "date" : "2018-12-02T18:30:00.000Z",
+    "workout" : "Back & Bi",
+    "sets" : 4,
+    "reps" : 9
+}
+
+/* 9 */
+{
+    "_id" : ObjectId("5c0b0515c602b034f60af384"),
+    "cardio" : false,
+    "hiit" : true,
+    "abs" : false,
+    "date" : "2018-12-01T18:30:00.000Z",
+    "workout" : "Shoulder & Legs",
+    "sets" : 4,
+    "reps" : 10
+}

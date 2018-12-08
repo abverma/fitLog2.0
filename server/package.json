@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "set NODE_ENV=test && node app.js",
+    "test": "mocha --timeout 10000"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,10 @@
   },
   "homepage": "https://github.com/abverma/fitLog2.0#readme",
   "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
     "express": "^4.16.4",
+    "mocha": "^5.2.0",
     "mongodb": "^3.1.10",
     "nodemon": "^1.18.6",
     "path": "^0.12.7",
