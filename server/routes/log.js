@@ -1,4 +1,6 @@
-let { ObjectId } = require('mongodb');
+let {
+    ObjectId
+} = require('mongodb');
 let Log = require('../models/log').Log;
 let qs = require('qs');
 
@@ -90,14 +92,17 @@ exports.deleteLogs = function(req, res) {
 }
 
 exports.updateLog = function(req, res) {
-    
+
+    let {
+        id
+    } = req.params
     let payload = req.body;
     let set = Object.assign({}, payload);
 
     delete set._id;
 
     let query = {
-        '_id': ObjectId(payload._id)
+        '_id': ObjectId(id)
     }
     let setObj = {
         $set: set

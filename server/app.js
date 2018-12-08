@@ -20,7 +20,7 @@ app.use(express.static(clientDir));
 
 //app.get('/', (req, res) => res.send('Hello World!'));
 app.get('/', function(req, res) {
-  res.sendfile(path.join(clientDir, 'index.html'));
+    res.sendfile(path.join(clientDir, 'index.html'));
 });
 
 app.get('/logs', logs.getLogs);
@@ -31,4 +31,4 @@ app.put('/logs/:id', logs.updateLog);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-module.exports = app;
+module.exports = app; //for testing

@@ -1,5 +1,7 @@
 let DB = require('../mongoDb').DB;
-let { ObjectId } = require('mongodb');
+let {
+    ObjectId
+} = require('mongodb');
 
 const COLLECTION_NAME = 'logs';
 
@@ -66,8 +68,28 @@ Log.prototype.create = function(payload) {
                 return database.insertMany(_this.collection, payload)
             })
             .then(function(data) {
-                database.close();
+                let insertedIds = data.insertedIds;
+                let tempArray = [];
 
+                if (insertedIds && Object.keys(insertedIds).length) {
+                    Object.keys(insertedIds).forEach(function(key) {
+                        tempArray.push(insertedIds[key]);
+                    })
+
+                    return database.find(_this.collection, {
+                        query: {
+                            _id: {
+                                $in: tempArray
+                            }
+                        }
+                    });
+                } else {
+                    resolve();
+                }
+
+            })
+            .then(function(data) {
+                database.close();
                 resolve(data);
             })
             .catch(function(err) {
@@ -92,8 +114,12 @@ Log.prototype.update = function(query, setObj) {
                 return database.update(_this.collection, query, setObj);
             })
             .then(function(data) {
+                return database.find(_this.collection, {
+                    query: query
+                });
+            })
+            .then(function(data) {
                 database.close();
-
                 resolve(data);
             })
             .catch(function(err) {
