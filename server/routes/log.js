@@ -1,36 +1,15 @@
-let model = require('../model');
-const {
-    ObjectId
-} = require('mongodb');
+const {ObjectId} = require('mongodb');
 let qs = require('qs');
-let mongoDb;
+let DB = require('../mongoDb').DB;
+let {mongoDBUri} = require('../config');
 
 const COLLECTION_NAME = 'logs';
 
-exports.createLogs = function(req, res) {
-    let db = model.getDbConnection();
-    if (db) {
-        let payload = req.body;
-        create(payload, COLLECTION_NAME, db)
-            .then(function(data) {
-                res.send({
-                    success: true,
-                    data: data.length,
-                    message: 'Records inserted'
-                });
-            })
-            .catch(function(err) {
-                handleErrorResponse(err, res);
-            })
-    } else {
-        console.log('Db not ready yet.');
-        res.send('Db not ready yet.');
-    }
-}
 
 exports.getAllLogs = function(req, res) {
-    let limit = req.query['limit'];
-    let start = req.query['start'];
+
+    let {limit} = req.query;
+    let {start} = req.query;
 
     if (limit) {
         limit = parseInt(limit);
@@ -40,188 +19,129 @@ exports.getAllLogs = function(req, res) {
         start = parseInt(start);
     }
 
-    let db = model.getDbConnection();
-    if (db) {
-        let readQuery = read(COLLECTION_NAME, {}, db, limit, start);
-        let countQuery = count(COLLECTION_NAME, {}, db);
-
-        Promise.all([readQuery, countQuery])
-            .then(function(result) {
-                res.send({
-                    success: true,
-                    data: result[0],
-                    count: result[1],
-                    message: 'Records fetched'
-                });
-            })
-            .catch(function(err) {
-                handleErrorResponse(err, res);
-            })
-    } else {
-        console.log('Db not ready yet.');
-        res.send('Db not ready yet.');
+    let sort = {
+        date: -1
     }
+
+    let database = new DB;
+
+    database.connect(mongoDBUri)
+        .then(function() {
+            let readQuery = database.find(COLLECTION_NAME, {}, limit, start, sort);
+            let countQuery = database.countDocuments(COLLECTION_NAME);
+
+            return Promise.all([readQuery, countQuery]);
+        })
+        .then(function(result) {
+            database.close();
+
+            res.send({
+                success: true,
+                data: result[0],
+                count: result[1],
+                message: 'Records fetched'
+            });
+        })
+        .catch(function(err) {
+            if (database) {
+                database.close();
+            }
+            handleErrorResponse(err, res);
+        });
 }
 
-exports.deleteLogs = function(req, res) {
-    let db = model.getDbConnection();
-    if (db) {
-        let payload = req.body;
-        let query = {
-            _id: ObjectId(payload._id)
-        }
+exports.createLogs = function(req, res) {
 
-        remove(query, COLLECTION_NAME, db)
-            .then(function(data) {
-                res.send({
-                    success: true,
-                    data: data.length,
-                    message: 'Records deleted'
-                });
-            })
-            .catch(function(err) {
-                handleErrorResponse(err, res);
-            })
-    } else {
-        console.log('Db not ready yet.');
-        res.send('Db not ready yet.');
+    let database = new DB;
+    let payload = req.body;
+
+    database.connect(mongoDBUri)
+        .then(function() {
+            return database.insertMany(COLLECTION_NAME, payload)
+        })
+        .then(function(data) {
+            database.close();
+
+            res.send({
+                success: true,
+                data: data,
+                message: 'Records inserted'
+            });
+        })
+        .catch(function(err) {
+            if (database) {
+                database.close();
+            }
+            console.log(err);
+            handleErrorResponse(err, res);
+        });
+}
+
+
+
+exports.deleteLogs = function(req, res) {
+
+    let database = new DB;
+    let payload = req.body;
+    let query = {
+        _id: ObjectId(payload._id)
     }
+
+    database.connect(mongoDBUri)
+        .then(function() {
+           return database.delete(COLLECTION_NAME, query);
+        })
+        .then(function(data) {
+            database.close();
+
+            res.send({
+                success: true,
+                data: data,
+                message: 'Records deleted'
+            });
+        })
+        .catch(function(err) {
+            console.log(err);
+            handleErrorResponse(err, res);
+        });   
 }
 
 exports.updateLog = function(req, res) {
-    let db = model.getDbConnection();
-    if (db) {
-        let payload = req.body;
-        console.log(payload);
-        //let param = JSON.parse(payload.param);
-        let set = Object.assign({}, payload);
+    let database = new DB;
+    let payload = req.body;
+    let set = Object.assign({}, payload);
 
-        delete set._id;
+    delete set._id;
 
-        let query = {
-            '_id': ObjectId(payload._id)
-        }
-        let setObj = {
-            $set: set
-        }
-        update(query, setObj, COLLECTION_NAME, db)
-            .then(function(data) {
-                res.send({
-                    success: true,
-                    data: data,
-                    message: 'Records updated'
-                });
-            })
-            .catch(function(err) {
-                handleErrorResponse(err, res);
-            });
-    } else {
-        console.log('Db not ready yet.');
-        res.send('Db not ready yet.');
+    let query = {
+        '_id': ObjectId(payload._id)
     }
-}
+    let setObj = {
+        $set: set
+    }
 
+    database.connect(mongoDBUri)
+        .then(function() {
+            return database.update(COLLECTION_NAME, query, setObj);
+        })
+        .then(function(data) {
+            database.close();
 
-let read = function(collection, query, db, limit, start) {
-    return new Promise(function(resolve, reject) {
-        db.collection(collection).find(query).skip(start).limit(limit).sort({date: -1}).toArray()
-            .then(function(data) {
-                resolve(data);
-            })
-            .catch(function(err){
-                reject(err);
+            res.send({
+                success: true,
+                data: data,
+                message: 'Records updated'
             });
-    });
-}
-
-let count = function(collection, query, db) {
-    return new Promise(function(resolve, reject) {
-        db.collection(collection).countDocuments(query)
-            .then(function(count){
-                resolve(count);
-            })
-            .catch(function(err){
-                reject(err);
-            });
-    });
-}
-
-let create = function(records, collection, db) {
-    return new Promise(function(resolve, reject) {
-        if (db) {
-            if (!Array.isArray(records)) {
-                records = [records];
-            }
-
-            db.collection(collection).insertMany(records)
-                .then(function(data){
-                    let msg = data.insertedCount + ' record(s) inserted.'
-                    console.log(msg);
-                    resolve({
-                        success: true,
-                        message: msg
-                    });
-                })
-                .catch(function(err){
-                    reject(err);
-                })
-        } else {
-            resolve();
-        }
-    })
-}
-
-let remove = function(query, collection, db) {
-    return new Promise(function(resolve, reject) {
-        if (db) {
-            console.log('delete query');
-            console.log(query);
-            db.collection(collection).deleteMany(query)
-                .then(function(result){
-                    let msg = result.deletedCount + ' record(s) deleted.'
-                    console.log(msg);
-                    resolve({
-                        success: true,
-                        message: msg
-                    });
-                })
-                .catch(function(err){
-                    reject(err);
-                })
-        } else {
-            resolve();
-        }
-    })
-}
-
-let update = function(query, payload, collection, db) {
-    return new Promise(function(resolve, reject) {
-        if (db) {
-            console.log('update query');
-            console.log(query);
-            db.collection(collection).updateMany(query, payload, function(err, data) {
-                if (err) {
-                    reject(err);
-                } else {
-                    let msg = data.result.nModified + ' record(s) updated.'
-                    console.log(msg);
-                    resolve({
-                        success: true,
-                        message: msg
-                    });
-                }
-            });
-        } else {
-            resolve();
-        }
-    })
+        })
+        .catch(function(err) {
+            console.log(err);
+            handleErrorResponse(err, res);
+        });
 }
 
 let handleErrorResponse = function(err, res) {
-    console.log(err);
-    console.log('Error finding logs');
     res.send({
         success: false,
-        error: err.toString(),
+        error: err.message
     });
 }
