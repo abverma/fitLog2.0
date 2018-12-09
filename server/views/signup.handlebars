@@ -1,0 +1,40 @@
+<form class="form-signin"  method="post" action="/signup">
+      <h2 class="h3 mb-3 font-weight-normal">Please enter details</h2>
+		{{#if errors}}
+				{{#each errors}}
+					<div class="alert alert-danger fade show" role="alert">
+						{{msg}}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				{{/each}}
+		{{/if}}
+	  	{{#if success_msg}}
+			<div class="alert alert-success" role="alert">{{success_msg}}</div>
+		{{/if}}
+		{{#if error_msg}}
+			<div class="alert alert-danger" role="alert">{{error_msg}}</div>
+		{{/if}}
+		{{#if error}}
+			<div class="alert alert-danger" role="alert">{{error}}</div>
+		{{/if}}
+      <label for="firstName" class="sr-only">First Name</label>
+      <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First Name" required autofocus>
+
+      <label for="secondName" class="sr-only">Second Name</label>
+      <input type="text" name="secondName" id="secondName" class="form-control" placeholder="Second Name">
+
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+      <label for="confirmPassword" class="sr-only">Confirm Password</label>
+      <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+      Already a user? <a href="/login">Sign In</a>
+      <p class="mt-5 mb-3 text-muted">&copy; 2018-2019</p>
+</form>

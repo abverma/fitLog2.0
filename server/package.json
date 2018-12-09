@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "mocha --timeout 10000",
-    "pretest": "eslint --ignore-path ../.gitignore ."
+    "pretest": "eslint --ignore-path .eslintignore ."
   },
   "repository": {
     "type": "git",
@@ -19,14 +19,23 @@
   },
   "homepage": "https://github.com/abverma/fitLog2.0#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "eslint": "^5.10.0",
     "eslint-config-strongloop": "^2.1.0",
     "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "express-validator": "^5.3.0",
     "mocha": "^5.2.0",
     "mongodb": "^3.1.10",
     "nodemon": "^1.18.6",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "qs": "^6.5.2"
   }

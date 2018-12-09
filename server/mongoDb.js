@@ -107,6 +107,24 @@ DB.prototype.insertMany = function(collection, documents) {
     });
 };
 
+DB.prototype.insert = function(collection, documents) {
+
+    let _this = this;
+
+    return new Promise(function(resolve, reject) {
+        _this.db.collection(collection).insert(documents)
+            .then(function(data) {
+                console.log(`${data.insertedCount} document(s) inserted in ${collection} collection.`);
+                resolve(data);
+            })
+            .catch(function(err) {
+                console.log(err);
+                console.log('Error inserting in collection.');
+                reject(err);
+            });
+    });
+};
+
 DB.prototype.delete = function(collection, query) {
 
     let _this = this;
