@@ -1,7 +1,4 @@
 let DB = require('../mongoDb').DB;
-let {
-    ObjectId
-} = require('mongodb');
 
 const COLLECTION_NAME = 'logs';
 
@@ -32,7 +29,7 @@ Log.prototype.find = function(options) {
                 reject(err);
             });
     });
-}
+};
 
 Log.prototype.count = function(options) {
     let _this = this;
@@ -55,7 +52,7 @@ Log.prototype.count = function(options) {
                 reject(err);
             });
     });
-}
+};
 
 Log.prototype.create = function(payload) {
 
@@ -65,7 +62,7 @@ Log.prototype.create = function(payload) {
     return new Promise(function(resolve, reject) {
         database.connect()
             .then(function() {
-                return database.insertMany(_this.collection, payload)
+                return database.insertMany(_this.collection, payload);
             })
             .then(function(data) {
                 let insertedIds = data.insertedIds;
@@ -74,7 +71,7 @@ Log.prototype.create = function(payload) {
                 if (insertedIds && Object.keys(insertedIds).length) {
                     Object.keys(insertedIds).forEach(function(key) {
                         tempArray.push(insertedIds[key]);
-                    })
+                    });
 
                     return database.find(_this.collection, {
                         query: {
@@ -101,7 +98,7 @@ Log.prototype.create = function(payload) {
             });
     });
 
-}
+};
 
 Log.prototype.update = function(query, setObj) {
 
@@ -113,7 +110,7 @@ Log.prototype.update = function(query, setObj) {
             .then(function() {
                 return database.update(_this.collection, query, setObj);
             })
-            .then(function(data) {
+            .then(function() {
                 return database.find(_this.collection, {
                     query: query
                 });
@@ -128,8 +125,8 @@ Log.prototype.update = function(query, setObj) {
                 }
                 reject(err);
             });
-    })
-}
+    });
+};
 
 
 Log.prototype.remove = function(query) {
@@ -154,6 +151,6 @@ Log.prototype.remove = function(query) {
                 reject(err);
             });
     });
-}
+};
 
 exports.Log = Log;

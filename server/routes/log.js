@@ -1,19 +1,12 @@
-let {
-    ObjectId
-} = require('mongodb');
+let {ObjectId} = require('mongodb');
 let Log = require('../models/log').Log;
-let qs = require('qs');
 
 exports.getLogs = function(req, res) {
 
 
     let log = new Log();
-    let {
-        limit
-    } = req.query;
-    let {
-        start
-    } = req.query;
+    let {limit} = req.query;
+    let {start} = req.query;
 
     if (limit) {
         limit = parseInt(limit);
@@ -25,14 +18,14 @@ exports.getLogs = function(req, res) {
 
     let sort = {
         date: -1
-    }
+    };
 
 
     let options = {
         limit: limit,
         start: start,
         sort: sort
-    }
+    };
 
     let readQuery = log.find(options);
     let countQuery = log.count();
@@ -49,7 +42,7 @@ exports.getLogs = function(req, res) {
         .catch(function(err) {
             handleErrorResponse(err, res);
         });
-}
+};
 
 exports.createLogs = function(req, res) {
 
@@ -68,14 +61,14 @@ exports.createLogs = function(req, res) {
         .catch(function(err) {
             handleErrorResponse(err, res);
         });
-}
+};
 
 exports.deleteLogs = function(req, res) {
 
-    let payload = req.body;
+    let {id} = req.params;
     let query = {
-        _id: ObjectId(payload._id)
-    }
+        _id: ObjectId(id)
+    };
     let log = new Log();
 
     log.remove(query)
@@ -89,13 +82,11 @@ exports.deleteLogs = function(req, res) {
         .catch(function(err) {
             handleErrorResponse(err, res);
         });
-}
+};
 
 exports.updateLog = function(req, res) {
 
-    let {
-        id
-    } = req.params
+    let {id} = req.params;
     let payload = req.body;
     let set = Object.assign({}, payload);
 
@@ -103,10 +94,10 @@ exports.updateLog = function(req, res) {
 
     let query = {
         '_id': ObjectId(id)
-    }
+    };
     let setObj = {
         $set: set
-    }
+    };
     let log = new Log();
 
     log.update(query, setObj)
@@ -120,7 +111,7 @@ exports.updateLog = function(req, res) {
         .catch(function(err) {
             handleErrorResponse(err, res);
         });
-}
+};
 
 let handleErrorResponse = function(err, res) {
     console.log(err);
@@ -129,4 +120,4 @@ let handleErrorResponse = function(err, res) {
         success: false,
         error: err.message
     });
-}
+};

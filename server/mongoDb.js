@@ -22,8 +22,8 @@ DB.prototype.connect = function() {
             let __this = _this;
 
             MongoClient.connect(URI, {
-                    useNewUrlParser: true
-                })
+                useNewUrlParser: true
+            })
                 .then(function(database) {
                     //console.log(process.env.NODE_ENV);
                     if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'test') {
@@ -38,28 +38,20 @@ DB.prototype.connect = function() {
                     console.log(err);
                     console.log('Error connecting: ' + err.message);
                     reject(err.message);
-                })
+                });
         }
     });
 
-}
+};
 
 DB.prototype.find = function(collection, options) {
 
     let _this = this;
 
-    let {
-        query
-    } = options;
-    let {
-        start
-    } = options;
-    let {
-        limit
-    } = options;
-    let {
-        sort
-    } = options;
+    let {query} = options;
+    let {start} = options;
+    let {limit} = options;
+    let {sort} = options;
 
     if (query === undefined) {
         query = {};
@@ -77,7 +69,7 @@ DB.prototype.find = function(collection, options) {
         }
 
         if (sort !== undefined && sort !== null) {
-            curstor = cursor.sort(sort);
+            cursor = cursor.sort(sort);
         }
 
         cursor.toArray()
@@ -91,7 +83,7 @@ DB.prototype.find = function(collection, options) {
                 reject(err);
             });
     });
-}
+};
 
 DB.prototype.insertMany = function(collection, documents) {
 
@@ -111,9 +103,9 @@ DB.prototype.insertMany = function(collection, documents) {
                 console.log(err);
                 console.log('Error inserting in collection.');
                 reject(err);
-            })
+            });
     });
-}
+};
 
 DB.prototype.delete = function(collection, query) {
 
@@ -121,7 +113,7 @@ DB.prototype.delete = function(collection, query) {
 
     return new Promise(function(resolve, reject) {
 
-        if (Object.keys(query).length = 0 && process.env.NODE_ENV !== 'test') {
+        if (Object.keys(query).length === 0 && process.env.NODE_ENV !== 'test') {
             reject('Delete all is not allowed.');
         } else {
             _this.db.collection(collection).deleteMany(query)
@@ -132,10 +124,10 @@ DB.prototype.delete = function(collection, query) {
                 .catch(function(err) {
                     console.log('Error deleting documents.');
                     reject(err);
-                })
+                });
         }
     });
-}
+};
 
 
 DB.prototype.update = function(collection, query, payload) {
@@ -152,9 +144,9 @@ DB.prototype.update = function(collection, query, payload) {
                 console.log(err);
                 console.log('Error updating documents.');
                 reject(err);
-            })
+            });
     });
-}
+};
 
 DB.prototype.countDocuments = function(collection, query) {
 
@@ -173,8 +165,8 @@ DB.prototype.countDocuments = function(collection, query) {
                 console.log('Count documents failed: ', err.message);
                 reject(err);
             });
-    })
-}
+    });
+};
 
 DB.prototype.close = function() {
 
@@ -182,10 +174,10 @@ DB.prototype.close = function() {
         this.connection.close()
             .then(function() {})
             .catch(function(err) {
-                console.log("Failed to close the database: " + err.message);
-            })
+                console.log('Failed to close the database: ' + err.message);
+            });
 
     }
-}
+};
 
 exports.DB = DB;

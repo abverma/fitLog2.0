@@ -1,18 +1,15 @@
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require('../app');
-let should = chai.should();
 let Log = require('../models/log').Log;
-
 
 process.env.NODE_ENV = 'test';
 
 let log = new Log();
-
-let logId;
-
+chai.should();
 chai.use(chaiHttp);
 //Our parent block
+
 describe('Logs', () => {
     beforeEach((done) => { //Before each test we empty the database
         log.remove({})
@@ -43,21 +40,19 @@ describe('Logs', () => {
         it('it should POST a log', (done) => {
             let log = {
                 date: new Date(),
-                workout: "Shoulders",
+                workout: 'Shoulders',
                 abs: true,
                 sets: 10
-            }
+            };
             chai.request(server)
                 .post('/logs')
                 .send(log)
                 .end((err, res) => {
-                    logId = res.body.data[0]._id;
-                    console.log(logId);
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.success.should.be.eql(true);
                     res.body.data.length.should.be.eql(1);
-                    res.body.data[0].workout.should.be.eql("Shoulders");
+                    res.body.data[0].workout.should.be.eql('Shoulders');
                     res.body.data[0].abs.should.be.eql(true);
                     res.body.data[0].sets.should.be.eql(10);
                     done();
@@ -73,10 +68,10 @@ describe('Logs', () => {
 
             let payload = {
                 date: new Date(),
-                workout: "Shoulders",
+                workout: 'Shoulders',
                 abs: true,
                 sets: 10
-            }
+            };
 
             log.create(payload)
                 .then(function(data) {
@@ -103,5 +98,35 @@ describe('Logs', () => {
 
         });
     });
+    /*
+     * Test the /DELETE/:id route
+     */
+    describe('/DELETE/:id log', () => {
+        it('it should DELETE a log given the id', (done) => {
+            let payload = {
+                date: new Date(),
+                workout: 'Shoulders',
+                abs: true,
+                sets: 10
+            };
 
+            log.create(payload)
+                .then(function(data) {
+                    chai.request(server)
+                        .delete('/logs/' + data[0]._id)
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            res.body.success.should.be.eql(true);
+                            res.body.should.have.property('data').eql(1);
+                            done();
+                        });
+
+                })
+                .catch(function(err) {
+                    console.log(err);
+                    done();
+                });
+        });
+    });
 });

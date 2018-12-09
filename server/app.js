@@ -8,7 +8,7 @@ let logs = require('./routes/log');
 let myLogger = function(req, res, next) {
     console.log(req.method, req.url);
     next();
-}
+};
 let clientDir = path.join(__dirname, '../client/build/production/FitLog/'); //NB
 
 app.use(myLogger);
