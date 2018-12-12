@@ -39,8 +39,6 @@ app.use(validator());
 
 //statics
 app.use(express.static('public'));
-app.use(express.static(clientDir));
-
 
 //hanldebar views
 app.set('views', viewsDir);
@@ -100,9 +98,24 @@ app.post('/login', passport.authenticate('local', {
     res.redirect('/');
 });
 
+app.use(function(req, res, next){
+	console.log('path: ', req.path);
+	if (!req.user) {
+		console.log('redirect')
+		if (req.xhr) {
+			res.redirect(401, '/login');
+		} else {
+			res.redirect('/login');
+		}
+	} else {
+		next();
+	}
+})
+
+app.use(express.static(clientDir));
 
 app.get('/', function(req, res) {
-    res.sendfile(path.join(clientDir, 'index.html'));
+    res.sendFile(path.join(clientDir, 'index.html'));
 });
 
 
@@ -113,7 +126,7 @@ app.delete('/logs/:id', logs.deleteLogs);
 app.put('/logs/:id', logs.updateLog);
 
 //error handler
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
     // log the error, for now just console.log
     console.log(err);
     res.status(500).send('Something broke!');
