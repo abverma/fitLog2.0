@@ -3,7 +3,14 @@ let config = require('./config');
 
 const DBNAME = config.mongoDB;
 const TESTDBNAME = config.mongoTestDB;
-const URI = config.mongoDBUri;
+
+let URI = config.mongoDBUri 
+
+if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'test') {
+    URI += '/' + TESTDBNAME;
+} else {
+    URI += '/' + DBNAME;
+}
 
 function DB() {
     this.db = null;
