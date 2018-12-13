@@ -22,6 +22,9 @@ exports.getLogs = function(req, res) {
 
 
     let options = {
+        query: {
+            user_id: req.user._id
+        },
         limit: limit,
         start: start,
         sort: sort
@@ -47,7 +50,8 @@ exports.getLogs = function(req, res) {
 exports.createLogs = function(req, res) {
 
     let payload = req.body;
-
+    payload.user_id = req.user._id;
+    
     let log = new Log();
 
     log.create(payload)

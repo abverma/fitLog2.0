@@ -3,3 +3,6 @@ client/build/development/
 client/build/testing/
 client/build/temp/
 client/ext/
+client/sencha-error*
+mongodump
+server/test.js

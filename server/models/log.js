@@ -60,7 +60,7 @@ Log.prototype.create = function(payload) {
     let database = new DB;
 
     return new Promise(function(resolve, reject) {
-        if (!payload || !payload.length) {
+        if (!payload && !payload.length) {
 
             reject('Empty payload for create not allowed.');
 

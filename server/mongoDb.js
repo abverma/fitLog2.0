@@ -81,7 +81,7 @@ DB.prototype.find = function(collection, options) {
 
         cursor.toArray()
             .then(function(data) {
-                console.log(`${data.length} documents read from ${collection} collection.`);
+                //console.log(`${data.length} documents read from ${collection} collection.`);
                 resolve(data);
             })
             .catch(function(err) {
@@ -103,7 +103,7 @@ DB.prototype.insertMany = function(collection, documents) {
 
         _this.db.collection(collection).insertMany(documents)
             .then(function(data) {
-                console.log(`${data.insertedCount} document(s) inserted in ${collection} collection.`);
+                //console.log(`${data.insertedCount} document(s) inserted in ${collection} collection.`);
                 resolve(data);
             })
             .catch(function(err) {
@@ -121,7 +121,7 @@ DB.prototype.insert = function(collection, documents) {
     return new Promise(function(resolve, reject) {
         _this.db.collection(collection).insert(documents)
             .then(function(data) {
-                console.log(`${data.insertedCount} document(s) inserted in ${collection} collection.`);
+                //console.log(`${data.insertedCount} document(s) inserted in ${collection} collection.`);
                 resolve(data);
             })
             .catch(function(err) {
@@ -143,7 +143,7 @@ DB.prototype.delete = function(collection, query) {
         } else {
             _this.db.collection(collection).deleteMany(query)
                 .then(function(result) {
-                    console.log(`${result.deletedCount} documents(s) deleted from ${collection} collection.`);
+                    //console.log(`${result.deletedCount} documents(s) deleted from ${collection} collection.`);
                     resolve(result.deletedCount);
                 })
                 .catch(function(err) {

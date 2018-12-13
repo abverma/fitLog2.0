@@ -1,5 +1,7 @@
 let User = require('../models/user').User;
 let LocalStrategy = require('passport-local').Strategy;
+let {ObjectId} = require('mongodb');
+
 
 
 module.exports.preparePassport = function(passport) {
@@ -8,7 +10,6 @@ module.exports.preparePassport = function(passport) {
         passwordField: 'password'
     }, function(username, password, done) {
         let user = new User();
-        console.log('Strategy: ', username);
 
         let returnUser;
         user.find({
@@ -43,20 +44,18 @@ module.exports.preparePassport = function(passport) {
     }));
 
     passport.serializeUser(function(user, done) {
-        console.log('serialize');
         done(null, user._id);
     });
 
     passport.deserializeUser(function(id, done) {
-        console.log('deserialize');
         let user = new User();
         user.find({
             query: {
-                _id: id
+                _id: ObjectId(id)
             }
         })
             .then(function(user) {
-                done(null, user);
+                done(null, user[0]);
             })
             .catch(function(err) {
                 done(err);

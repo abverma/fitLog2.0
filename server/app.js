@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: ["error", { "argsIgnorePattern": "next" }]*/
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -94,23 +95,25 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: true
 }), function(req, res) {
-    console.log('redirect');
     res.redirect('/');
 });
 
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/login');
+});
+
 app.use(function(req, res, next){
-	console.log('path: ', req.path);
-	if (!req.user) {
-		console.log('redirect')
-		if (req.xhr) {
-			res.redirect(401, '/login');
-		} else {
-			res.redirect('/login');
-		}
-	} else {
-		next();
-	}
-})
+    if (!req.user) {
+        if (req.xhr) {
+            res.redirect(401, '/login');
+        } else {
+            res.redirect('/login');
+        }
+    } else {
+        next();
+    }
+});
 
 app.use(express.static(clientDir));
 
@@ -125,8 +128,9 @@ app.post('/logs', logs.createLogs);
 app.delete('/logs/:id', logs.deleteLogs);
 app.put('/logs/:id', logs.updateLog);
 
+
 //error handler
-app.use((err, req, res, next) => {
+app.use(function (err, req, res, next){
     // log the error, for now just console.log
     console.log(err);
     res.status(500).send('Something broke!');
