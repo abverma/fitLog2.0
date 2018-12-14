@@ -2,7 +2,7 @@ Ext.define('FitLog.model.Log', {
     extend: 'Ext.data.Model',
     idProperty: '_id',
     fields: [{
-        name: '_id',
+        name: '_id'
     }, {
         name: 'workout'
     }, {

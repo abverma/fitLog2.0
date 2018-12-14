@@ -3,6 +3,7 @@ client/build/development/
 client/build/testing/
 client/build/temp/
 client/ext/
-client/sencha-error*
+client/sencha-error-*.log
 mongodump
 server/test.js
+client/.sencha

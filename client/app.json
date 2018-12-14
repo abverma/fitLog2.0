@@ -1,23 +1,13 @@
 {
-    "name": "FitLog",
-    "namespace": "FitLog",
-    "version": "1.0.0.0",
-    "framework": "ext",
-    "toolkit": "classic",
-    "theme": "theme-triton",
-
     /**
-     * The list of required packages (with optional versions; default is "latest").
-     *
-     * For example,
-     *
-     *      "requires": [
-     *          "charts"
-     *      ]
+     * The application's namespace.
      */
-    "requires": [
-        "font-awesome"
-    ],
+    "name": "FitLog",
+    
+    /**
+     * The version of the application.
+     */
+    "version": "1.0.0.0",
 
     /**
      * The relative path to the application's markup file (html, jsp, asp, etc.).
@@ -46,10 +36,42 @@
     ],
 
     /**
+     * The Sencha Framework for this application: "ext" or "touch".
+     */
+    "framework": "ext",
+    
+    
+    /**
+     * The toolkit to use. Select either "classic" or "modern".
+     */
+    "toolkit": "classic",
+    
+    
+    
+    /**
+     * The name of the theme for this application.
+     */
+    
+    "theme": "theme-triton",
+    
+    
+    /**
+     * The list of required packages (with optional versions; default is "latest").
+     *
+     * For example,
+     *
+     *      "requires": [
+     *          "charts"
+     *      ]
+     */
+    "requires": [
+        "font-awesome"
+    ],
+
+    /**
      * Fashion build configuration properties.
      */
     "fashion": {
-        "missingParameters": "error",
         "inliner": {
             /**
              * Disable resource inliner. Production builds enable this by default.
@@ -86,11 +108,12 @@
          *      }
          *
          */
-
+         
         "generated": {
             "var": "sass/save.scss",
             "src": "sass/save"
         },
+        
 
         /**
          * Comma-separated list of files or folders containing extra Sass. These
@@ -212,6 +235,8 @@
         }
     ],
 
+    
+
     /**
      * List of all CSS assets in the right inclusion order.
      *
@@ -289,13 +314,13 @@
             "type": "yui"
         }
     },
-
+    
     /**
      * Settings specific to testing builds.
      */
     "testing": {
     },
-
+    
     /**
      * Settings specific to development builds.
      */
@@ -315,7 +340,7 @@
      * form:
      *
      *      "bootstrap": {
-     *          "base": "${app.dir}",
+     *          "base": "${app.dir},
      *          "manifest": "bootstrap.json",
      *          "microloader": "bootstrap.js",
      *          "css": "bootstrap.css"
@@ -334,7 +359,7 @@
      */
     "bootstrap": {
         "base": "${app.dir}",
-
+        
         "microloader": "bootstrap.js",
         "css": "bootstrap.css"
     },
@@ -354,12 +379,7 @@
      *              "enable": false
      *          },
      *          "css": "${app.output.resources}/${app.name}-all.css",
-     *          "js": {
-     *              "path": "app.js",
-     *              // This setting constrols the output language level.  Set to 'ES6' to 
-     *              // disable the transpiler
-     *              "version": "ES5"
-     *          },
+     *          "js": "app.js",
      *          "microloader": {
      *              "path": "microloader.js",
      *              "embed": true,
@@ -384,14 +404,15 @@
      *      }
      *
      */
-
+    
     "output": {
         "base": "${workspace.build.dir}/${build.environment}/${app.name}",
         "appCache": {
             "enable": false
         }
     },
-
+    
+    
     /**
     * Controls for localStorage caching
     *   "cache": {
@@ -407,11 +428,12 @@
     *       "deltas": "deltas"
     *   }
     */
-
+    
     "cache": {
         "enable": false,
         "deltas": true
     },
+    
 
     /**
      * Used to automatically generate cache.manifest (HTML 5 application cache manifest)
@@ -452,8 +474,10 @@
      * generated inside this directory must be kept intact for proper generation of
      * deltas between updates.
      */
-
+    
     "archivePath": "archive",
+    
+
 
     /**
      * Additional resources used during theme slicing operations
@@ -475,6 +499,7 @@
         }
     },
 
+
     /**
      * Build Profiles. This object's properties are each a "build profile". You can
      * add as many as you need to produce optimized builds for devices, themes, locales
@@ -483,7 +508,8 @@
      * names.
      *
      */
-
+    
+    
     /**
      * File / directory name patttern to ignore when copying to the builds. Must be a
      * valid regular expression.
@@ -496,5 +522,5 @@
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "fd53b71e-7265-47a8-b50c-edd8f24b5cc4"
+    "id": "4e27302c-e6d5-4838-9149-e0463055f6a4"
 }

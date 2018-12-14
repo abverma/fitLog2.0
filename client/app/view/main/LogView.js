@@ -4,11 +4,9 @@
 Ext.define('FitLog.view.main.Log', {
     extend: 'Ext.grid.Panel',
     xtype: 'logview',
-
     requires: [
         'FitLog.store.Log'
     ],
-
     title: 'Log',
     plugins: {
         ptype: 'cellediting',
@@ -62,7 +60,7 @@ Ext.define('FitLog.view.main.Log', {
                             store.sync({
                                 callback: function() {
                                     grid.unmask();
-                                    Ext.Msg.alert('Save', 'Save successfully.', Ext.emptyFn);
+                                    Ext.Msg.alert('Save', 'Save successfully.');
                                 }
                             });
                         }
@@ -101,7 +99,7 @@ Ext.define('FitLog.view.main.Log', {
         store: 'idLogStore',
         displayInfo: true,
         displayMsg: 'Displaying topics {0} - {1} of {2}',
-        emptyMsg: "No topics to display",
+        emptyMsg: "No topics to display"
     }),
     columns: [{
         xtype: 'datecolumn',
@@ -157,7 +155,7 @@ Ext.define('FitLog.view.main.Log', {
                 }, {
                     display: 'No',
                     value: false
-                }, ]
+                } ]
             }
         },
         align: 'left',
@@ -185,7 +183,7 @@ Ext.define('FitLog.view.main.Log', {
                 }, {
                     display: 'No',
                     value: false
-                }, ]
+                } ]
             }
         },
         align: 'left',
@@ -213,7 +211,7 @@ Ext.define('FitLog.view.main.Log', {
                 }, {
                     display: 'No',
                     value: false
-                }, ]
+                } ]
             }
         },
         align: 'left',
