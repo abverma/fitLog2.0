@@ -89,6 +89,11 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/login');
+});
+
 //homepage
 app.get('/login', function(req, res) {
   res.render('login');
@@ -120,15 +125,11 @@ app.post('/session', passport.authenticate('local'), function(req, res) {
   });
 });
 
-app.get('/logout', function(req, res) {
-  req.logout();
-  res.redirect('/login');
-});
+
 
 app.use(function(req, res, next) {
   //console.log('Cookies: ', req.cookies);
   if (!req.user) {
-    console.log(req.headers);
     console.log('Use not authenticated. Redirecting..');
     if (req.xhr) {
       res.redirect(401, '/login');

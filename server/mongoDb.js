@@ -5,13 +5,11 @@ const DBNAME = config.mongoDB;
 const TESTDBNAME = config.mongoTestDB;
 let URI = '';
 
-console.log(process.env.NODE_ENV);
+console.debug(process.env.NODE_ENV ? process.env.NODE_ENV : '');
 if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'test') {
   URI += config.mongoTestDBUri + '/' + TESTDBNAME;
-  console.log('connecting to: ', URI);
 } else {
   URI += config.mongoDBUri + '/' + DBNAME;
-  console.log('connecting to: ', URI);
 }
 
 function DB() {
