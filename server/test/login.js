@@ -60,10 +60,10 @@ describe('Login', () => {
                 .post('/session')
                 .send(user)
                 .end((err, res) => {
-          			cookie = res.headers['set-cookie'][0];
+                    cookie = res.headers['set-cookie'][0];
                     should.equal(err, null);
                     res.should.have.status(200);
-          			res.should.have.cookie('connect.sid');
+                    res.should.have.cookie('connect.sid');
                     done();
                 });
         });
@@ -73,13 +73,9 @@ describe('Login', () => {
      */
     describe('/Logout', () => {
         it('it should logout', done => {
-            let user = {
-                email: 'ruchika@gmail.com',
-                password: '654321'
-            };
             agent
                 .post('/logout')
-        		.set('Cookie', cookie)
+                .set('Cookie', cookie)
                 .end((err, res) => {
                     should.equal(err, null);
                     res.should.have.status(404);

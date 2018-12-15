@@ -7,7 +7,7 @@
     "start": "ndb nodemon app.js",
     "start-test": "CLIENT_MODE=testing nodemon app.js",
     "test": "NODE_ENV=test mocha --timeout 10000 --exit",
-    "lint": "eslint --ignore-path .eslintignore .",
+    "lint": "eslint --ignore-path .eslintignore . --fix",
     "pretty": "prettier"
   },
   "repository": {
