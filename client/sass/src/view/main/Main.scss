@@ -1,70 +1,31 @@
 /**
- * Generates a set of style rules for the "navigation" tab UI.
- */
-@include extjs-tab-panel-ui(
-    $ui: 'navigation',
-    $ui-tab-background-color: transparent,
-    $ui-tab-background-color-over: #505050,
-    $ui-tab-background-color-active: #303030,
-    $ui-tab-background-gradient: 'none',
-    $ui-tab-background-gradient-over: 'none',
-    $ui-tab-background-gradient-active: 'none',
-    $ui-tab-color: #acacac,
-    $ui-tab-color-over: #c4c4c4,
-    $ui-tab-color-active: #fff,
-    $ui-tab-glyph-color: #acacac,
-    $ui-tab-glyph-color-over: #c4c4c4,
-    $ui-tab-glyph-color-active: #fff,
-    $ui-tab-glyph-opacity: 1,
-    $ui-tab-border-radius: 0,
-    $ui-tab-border-width: 0,
-    $ui-tab-inner-border-width: 0,
-    $ui-tab-padding: 24px,
-    $ui-tab-margin: 0,
-    $ui-tab-font-size: 15px,
-    $ui-tab-font-size-over: 15px,
-    $ui-tab-font-size-active: 15px,
-    $ui-tab-line-height: 19px,
-    $ui-tab-font-weight: bold,
-    $ui-tab-font-weight-over: bold,
-    $ui-tab-font-weight-active: bold,
-    $ui-tab-icon-width: 24px,
-    $ui-tab-icon-height: 24px,
-    $ui-tab-icon-spacing: 5px,
-    $ui-bar-background-color: #404040,
-    $ui-bar-background-gradient: 'none',
-    $ui-bar-padding: 0,
-    $ui-strip-height: 0
-);
-
-/**
- * Generates a set of style rules for the "navigation" panel UI.
+ * Generates a set of style rules for the "navigatio" panel UI.
  */
 @include extjs-panel-ui(
-    $ui: 'navigation',
+    $ui: 'navheader',
     $ui-header-color: #fff,
     $ui-header-glyph-color: #fff,
     $ui-header-glyph-opacity: 1,
-    $ui-header-font-size: 20px,
+    $ui-header-font-size: 18px,
     $ui-header-line-height: 24px,
     $ui-header-font-weight: bold,
-    $ui-header-icon-height: 24px,
-    $ui-header-icon-width: 24px,
+    $ui-header-icon-height: 20px,
+    $ui-header-icon-width: 20px,
     $ui-header-icon-spacing: 15px,
     $ui-header-background-color: $base-color,
     $ui-header-padding: 0,
-    $ui-header-text-margin: 36px,
+    $ui-header-text-margin: 18px,
     $ui-header-noborder-adjust: false
 );
 
-.x-title-icon-navigation {
+.x-title-icon-navheader {
     font-family: FontAwesome;
     color: #fff;
-    font-size: 24px;
-    line-height: 24px;
+    font-size: 16px;
+    line-height: 16px;
 }
 
-.x-tab-icon-el-navigation {
+.x-tab-icon-el-navheader {
     font-family: FontAwesome;
     color: #acacac;
 
@@ -77,7 +38,116 @@
     }
 }
 
-.x-panel-header-title-navigation > .x-title-text-navigation:after {
-    top: 30px;
+.x-panel-header-title-navheader > .x-title-text-navheader:after {
+    top: 16px;
     right: -24px;
 }
+
+@include treelist-ui(
+    $ui: 'nav',
+
+    // Extra padding left/right
+    $padding: 0 10px,
+
+    // Black-ish background color
+    $background-color: #32404e,
+    $toolstrip-background-color: #32404e,
+
+    $tool-selected-color: #f0f0f0,
+    $tool-selected-background-color: #5fa2dd,
+
+    $tool-float-indicator-width: 4px,
+    $tool-float-indicator-color: #5fa2dd,
+
+    // Darker background for expanded subtrees
+    $item-expanded-background-color: #2c3845,
+
+    // Taller line height
+    $item-line-height : 50px,
+
+    // Off-white text
+    $item-icon-color: #ADB3B8,
+    $item-expander-color: #ADB3B8,
+    $item-text-color: #ADB3B8,
+    $item-text-font-size: 16px,
+
+
+    // Brighter when hovered
+    $row-over-background-color: #4f606f,
+    $item-icon-over-color: #fff,
+    $item-expander-over-color: #fff,
+    $item-text-over-color: #fff,
+
+    $row-indicator-width: 6px,
+    $row-indicator-selected-color: #5fa2dd,
+    $row-indicator-selected-over-color: lighten(#5fa2dd, 10%),
+    $row-indicator-over-color: lighten(#5fa2dd, 10%),
+
+    // Various sizes for the pieces:
+    $item-icon-font-size: 18px,
+    $item-icon-width: 24px,
+    $item-expander-font-size: 16px,
+    $item-expander-width: 24px,
+
+    $row-selected-background-color: #3f505f
+);
+
+.x-treelist-nav {
+    font-weight: 500;
+}
+
+.x-btn-focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.x-btn {
+    border: none;
+}
+
+@include extjs-toolbar-ui(
+    $ui: 'maintoolbar'
+);
+
+.x-toolbar-maintoolbar {
+    height: 60px;
+}
+.x-toolbar-maintoolbar > .x-box-inner {
+    top: 8px;
+}
+
+.x-grid-item {
+    color: #4b4c4c;
+}
+
+.x-toolbar-text-default, .x-grid-item {
+    font-weight: 400;
+}
+
+.x-grid-header-ct {
+    border: none !important;
+}
+
+
+.x-column-header {
+    border-right: none !important;
+    font-weight: 550 !important;
+    font-size: 13px !important;
+}
+
+.x-grid-cell-special {
+    border-right-width: 0;
+}
+
+.x-panel-header-title-default {
+    line-height: 22px;
+}
+
+/*.x-grid-item {
+    font-weight: 300 !important;
+    font-size: 14px !important;
+}
+
+.x-grid-cell-inner {
+    padding: 12px 8px!important;
+}*/

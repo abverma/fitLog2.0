@@ -153,6 +153,13 @@ app.post('/logs', logs.createLogs);
 app.delete('/logs/:id', logs.deleteLogs);
 app.put('/logs/:id', logs.updateLog);
 
+app.get('/currentUser', function(req, res) {
+    res.send({
+        success: true,
+        data: req.user
+    });
+})
+
 //error handler
 app.use(function(err, req, res, next) {
     // log the error, for now just console.log

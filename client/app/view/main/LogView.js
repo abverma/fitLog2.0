@@ -4,10 +4,17 @@
 Ext.define('FitLog.view.main.Log', {
     extend: 'Ext.grid.Panel',
     xtype: 'logview',
+    padding: 5,
+
+    viewConfig: {
+        columnLines: false,
+        stripeRows: false,
+        enableTextSelection: true
+    },
     requires: [
         'FitLog.store.Log'
     ],
-    title: 'Log',
+    title: 'Your Logs',
     plugins: {
         ptype: 'cellediting',
         clicksToEdit: 1,
@@ -47,7 +54,20 @@ Ext.define('FitLog.view.main.Log', {
             }
         }, {
             xtype: 'button',
+            text: 'Reset',
+            handler: function() {
+                var grid = this.up('grid');
+                if (grid) {
+                    var store = this.up('grid').getStore();
+                    if (store) {
+                        store.reload();
+                    }
+                }
+            }
+        }, {
+            xtype: 'button',
             text: 'Save',
+            style: 'background-color: #9cc96b; color: #ffffff;',
             handler: function() {
                 var grid = this.up('grid');
                 if (grid) {
@@ -70,19 +90,8 @@ Ext.define('FitLog.view.main.Log', {
             }
         }, {
             xtype: 'button',
-            text: 'Reset',
-            handler: function() {
-                var grid = this.up('grid');
-                if (grid) {
-                    var store = this.up('grid').getStore();
-                    if (store) {
-                        store.reload();
-                    }
-                }
-            }
-        }, {
-            xtype: 'button',
             text: 'Add Column',
+            hidden: true,
             handler: function() {
                 var grid = this.up('grid');
                 var column = Ext.create('Ext.grid.column.Column', {
