@@ -1,0 +1,308 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "Open Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+	font-size: 16px;
+	font-weight: 300;
+	color: #999;
+	background: #fff;
+	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+}
+
+.toolbar {
+	height: 63px;
+	background: #fff;
+	overflow: hidden;
+	transition: .1s;
+	padding-right: 10px;
+	margin-bottom: 5px;
+	border-width: 0;
+	box-shadow : 2px 2px 8px 0 rgba(0, 0, 0, 0.4)
+}
+
+.openBtn {
+	margin: 20px 10px;
+	background: transparent;
+	box-shadow: none;
+	text-shadow: none;
+	border: none;
+}
+
+.tools {
+	margin: 20px 10px;
+	float: right;
+}
+
+.tools .text{
+	margin: 0 10px;
+}
+
+.nav {
+	position: fixed;
+	height: 100%;
+	width: 0px;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background: #32404e;
+	color: #adb3b8;
+	overflow-x: hidden;
+	transition: .1s;
+}
+
+.nav li {
+	font-size: 16px;
+	list-style: none;
+	line-height: 60px;
+	padding-left: 15px;
+	transition: .5s;
+}
+
+.nav i {
+	margin-right: 15px;
+}
+
+.nav li:hover {
+	background: #606060;
+	color: #3edc81;
+}
+
+.nav .closeBtn {
+	font-size: 18px;
+	margin: 20px 2px;
+	position: absolute;
+	top: 10;
+	right: 10px;
+	margin-left: 50px;
+}
+
+.logo {
+	color: #3edc81;
+	font-weight: 700;
+	font-size: 28px;
+	line-height: 63px;
+	padding-left: 15px;
+}
+
+#main {
+	height: 100%;
+	transition: .1s;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+}
+
+#main-content {
+	font-size: 16px;
+	width: 100%
+	height: 100%;
+	background: #fff;
+	color: #404040;
+}
+
+.mainContentHeader button {
+  background-color: #3edc81; 
+  border: none;
+  color: white;
+  padding: 10px 0px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  margin-bottom: 1px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.mainContentHeader h2 {
+	display: none;
+	float: left;
+}
+
+.mainContentHeader i {
+	display: none;
+	color: #3edc81;
+	font-size: 28px;
+	float: right;
+	cursor: pointer;
+}
+
+table {
+  table-layout: fixed; 
+  width: 100%;
+  background: #fff;
+  color: #3d3d3d;
+  display: none;
+  margin-top: 20px;
+  padding: 5px 20px;
+  font-size: 14px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: .2vw .2vw;
+  text-align: left;
+  width: 10vw;
+
+}
+
+th, tr {
+  border-bottom: 1px solid #999;
+  border-top: 1px solid #999;
+}
+
+
+td {
+	word-wrap: break-word;
+}
+
+#cards {
+	overflow-y: scroll;
+	color: #404040;
+}
+
+.card {
+	cursor: pointer;
+	padding: 20px;
+	box-sizing: border-box;
+	font-size: 16px;
+	border-bottom: .5px solid #999;
+}
+
+.card:hover {
+	background: #ffefbb;
+}
+
+.cardHeader {
+	widows: 100%;
+	line-height: 20px;
+}
+.cardHeader h3 {
+	font-size: 16px;
+	float: left;
+	font-weight: 500;
+}
+
+.cardHeader i {
+	color: #999;
+	padding-left: 10px;
+	right: 20px;
+	float: right;
+}
+
+.cardDetails {
+	margin-top: 20px;
+	line-height: 20px;
+	font-size: 16px;
+	max-width: 260px;
+}
+
+.workout {
+	font-size: 18px;
+}
+
+
+@media screen and (min-width: 767px) {
+
+	body {
+		background: #f2f2f2;
+	}
+
+	.nav {
+		width: 50px;
+	}
+
+	#main, .toolbar {
+		margin-left: 50px;
+	}
+
+	#main {
+		padding: 10px 5px;
+	}
+
+	.tools .text{
+		display: inline;
+	}
+
+	.nav .text {
+		display: none;
+	}
+
+	#closeBtn {
+		display: none;
+	}
+
+	.mainContentHeader {
+		height: 30px;
+		padding: 20px 20px;
+	}
+
+	.mainContentHeader h2 {
+		display: inline;
+		float: left;
+	}
+
+	.mainContentHeader i {
+		display: inline;
+		float: right;
+	}
+	.mainContentHeader button {
+		display: none;
+	}
+
+	#cards {
+		display: grid;
+    	grid-template-columns: 50% 50%;
+	}
+
+	.card {
+		border: none;
+		margin: 1px;
+	}
+
+}
+
+@media screen and (min-width: 1000px) {
+
+
+	.nav {
+		width: 250px;
+	}
+
+	.nav li {
+		font-size: 18px;
+	}
+
+	#main, .toolbar {
+		margin-left: 250px;
+		overflow: hidden;
+	}
+
+	.nav .text {
+		display: inline;
+	} 
+
+	#closeBtn {
+		display: inline;
+	}
+
+	#openBtn {
+		display: none;
+	}
+
+	#cards {
+		display: none;
+	}
+
+	table {
+		display: block;
+	}
+
+	#main-content {
+		padding: 0 30px;
+	}
+}

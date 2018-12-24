@@ -29,7 +29,8 @@ if (
 ) {
     clientDir = path.join(__dirname, '../client/build/testing/FitLog/');
 } else {
-    clientDir = path.join(__dirname, '../client/build/production/FitLog/');
+    //clientDir = path.join(__dirname, '../client/build/production/FitLog/');
+    clientDir = path.join(__dirname, '../FitLog/');
 }
 let viewsDir = path.join(__dirname, 'views');
 
