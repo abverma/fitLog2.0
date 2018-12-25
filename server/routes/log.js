@@ -28,7 +28,11 @@ exports.getLogs = function(req, res) {
     };
 
     let readQuery = log.find(options);
-    let countQuery = log.count();
+    let countQuery = log.count({
+        query: {
+            user_id: req.user._id
+        }
+    });
 
     Promise.all([readQuery, countQuery])
         .then(function(result) {

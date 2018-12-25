@@ -2,7 +2,7 @@
 <div id="cards" class="cards">
 	<div v-for="(log,index) in logs" class="card">
         	<div class="cardHeader">
-              <h3>{{ log.date }}</h3>
+              <h3>{{ new Date(log.date).toDateString() }}</h3>
               <i class="fas fa-trash"></i>
               <i class="fas fa-pen"></i>
             </div>
@@ -14,41 +14,12 @@
 </template>
 
 <script>
-let logs = [{ 
-      'date': '1 Dec 2018',
-      'workout': 'Back & Bi',
-      'sets': '5',
-      'reps': '10',
-      'hiit': 'Yes',
-      'abs': 'Yes',
-      'cardio': 'No',
-      'stretch': 'No',
-      'comments': 'Waat lag gayeli!!!'
-    }, { 
-      'date': '1 Dec 2018',
-      'workout': 'Back & Bi',
-      'sets': '5',
-      'reps': '10',
-      'hiit': 'Yes',
-      'abs': 'Yes',
-      'cardio': 'No',
-      'stretch': 'No',
-      'comments': 'Waat lag gayeli!!!'
-    }, { 
-      'date': '1 Dec 2018',
-      'workout': 'Back & Bi',
-      'sets': '5',
-      'reps': '10',
-      'hiit': 'No',
-      'abs': 'Yes',
-      'cardio': 'Yes',
-      'stretch': 'No',
-      'comments': 'Waat lag gayeli!!!'
-    }];	
+	
 export default {
+  props: ['logs'],
 	data () {
 		return {
-			logs: logs
+			
 		}
 	},
 	methods: {
@@ -70,8 +41,8 @@ export default {
               returnString += ', Cardio'; 
             }
 
-            if (returnString.length > 35) {
-              returnString = returnString.substr(0, 32) + '..';
+            if (returnString.length > 40) {
+              returnString = returnString.substr(0, 37) + '..';
             }
 
             return returnString;

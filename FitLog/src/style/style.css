@@ -3,6 +3,10 @@
 	padding: 0;
 }
 
+html, body, #main, #main-content {
+	height: 100%
+}
+
 body {
 	font-family: "Open Sans", "Helvetica Neue", helvetica, arial, sans-serif;
 	font-size: 16px;
@@ -19,9 +23,9 @@ body {
 	overflow: hidden;
 	transition: .1s;
 	padding-right: 10px;
-	margin-bottom: 5px;
+	margin-bottom: 4px;
 	border-width: 0;
-	box-shadow : 2px 2px 8px 0 rgba(0, 0, 0, 0.4)
+	box-shadow : 2px 2px 8px 0 rgba(0, 0, 0, 0.4);
 }
 
 .openBtn {
@@ -104,10 +108,28 @@ body {
 	color: #404040;
 }
 
-.mainContentHeader button {
+.bigAddBtn {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  box-sizing: border-box;
+  box-shadow : 2px 2px 8px 0 rgba(0, 0, 0, 0.4);
+  background-color: #3edc81; 
+  border-radius: 50%;
+  border-color: transparent;
+  color: #fff;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.spanBtn {
   background-color: #3edc81; 
   border: none;
-  color: white;
+  color: #fff;
   padding: 10px 0px;
   text-align: center;
   text-decoration: none;
@@ -131,38 +153,41 @@ body {
 	cursor: pointer;
 }
 
+.bigAddBtn i {
+  color: #fff;
+  display: contents;
+}
+
 table {
   table-layout: fixed; 
-  width: 100%;
   background: #fff;
   color: #3d3d3d;
+  width: 100%;
   display: none;
-  margin-top: 20px;
   padding: 5px 20px;
   font-size: 14px;
   border-collapse: collapse;
 }
 
 th, td {
-  padding: .2vw .2vw;
+  padding: .5vw .5vw;
   text-align: left;
-  width: 10vw;
-
 }
 
-th, tr {
-  border-bottom: 1px solid #999;
-  border-top: 1px solid #999;
+tr {
+  border: 1px solid #a6a6a6;
 }
 
 
 td {
+  	padding: .8vw .5vw;
 	word-wrap: break-word;
 }
 
 #cards {
 	overflow-y: scroll;
 	color: #404040;
+	/*height: 100%;*/
 }
 
 .card {
@@ -170,7 +195,7 @@ td {
 	padding: 20px;
 	box-sizing: border-box;
 	font-size: 16px;
-	border-bottom: .5px solid #999;
+	border-bottom: .5px solid #d9d9d9;
 }
 
 .card:hover {
@@ -205,6 +230,13 @@ td {
 	font-size: 18px;
 }
 
+.loadingMessage {
+	padding: 5px 20px;
+}
+
+.gridHeader {
+	display: none;
+}
 
 @media screen and (min-width: 767px) {
 
@@ -238,7 +270,8 @@ td {
 
 	.mainContentHeader {
 		height: 30px;
-		padding: 20px 20px;
+		padding: 20px 10px;
+		margin: 0px 10px ;
 	}
 
 	.mainContentHeader h2 {
@@ -250,8 +283,22 @@ td {
 		display: inline;
 		float: right;
 	}
-	.mainContentHeader button {
+
+	.pagingToolBar {
+	    margin: 5px 0px 20px 20px;
+	}
+
+	.bigAddBtn {
 		display: none;
+	}
+
+	.spanBtn {
+		width: auto;
+	    font-size: 13px;
+	    padding: 5px 8px;
+	    background: #3edc81;
+	    color: #fff;
+	    border: 1px solid whitesmoke;
 	}
 
 	#cards {
@@ -260,8 +307,8 @@ td {
 	}
 
 	.card {
-		border: none;
-		margin: 1px;
+		border-color: #f1f1f1;
+		margin: 5px;
 	}
 
 }
@@ -303,6 +350,32 @@ td {
 	}
 
 	#main-content {
-		padding: 0 30px;
+		padding: 30px 30px;
 	}
+
+	.mainContentHeader {
+		display: none;
+	}
+
+	.gridHeader {
+		display: block;
+	  	padding: 5px 20px;
+	  	overflow: hidden;
+	  	margin: 0 auto;
+	  	font-size: 24px;
+	}
+
+	.gridHeader button {
+		float: right;
+	  	margin: auto auto auto 10px;
+	  	padding: 7px;
+	  	background-color: #999; 
+		border: 1px solid #878788;
+		color: #f0f0f0;
+		text-align: center;
+		font-size: 13px;
+		font-weight: 500;
+		line-height: 17px;
+		cursor: pointer;
+}
 }

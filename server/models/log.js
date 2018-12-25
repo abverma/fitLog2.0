@@ -40,9 +40,10 @@ Log.prototype.count = function(options) {
         database
             .connect()
             .then(function() {
-                return database.countDocuments(_this.collection, options);
+                return database.countDocuments(_this.collection, options.query);
             })
             .then(function(data) {
+                console.log('Count result', data);
                 database.close();
                 resolve(data);
             })
