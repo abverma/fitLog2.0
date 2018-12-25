@@ -231,7 +231,11 @@ td {
 }
 
 .loadingMessage {
-	padding: 5px 20px;
+	position: relative;
+	font-size: 28px;
+	top: 10px;
+	margin-top: 10px;
+	padding: 35px 20px;
 }
 
 .gridHeader {

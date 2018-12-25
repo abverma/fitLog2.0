@@ -10,7 +10,7 @@
         <!-- Grid to be rendered on laptop and bigger devices -->
         <span v-if="loading" class="loadingMessage">Loading...</span>
         <div id="grid" v-if="!loading">
-          <log-grid v-bind:logs="logs"></log-grid>
+          <log-grid v-bind:logs="logs" v-on:deleteLog="deleteLogs"></log-grid>
         </div>
         <!-- Cards to be rendered on tablets or smaller devices -->
         <card-details v-if="!loading" v-bind:logs="logs"></card-details>
@@ -76,6 +76,31 @@ export default {
         .catch(function(err){
           console.log(err);
         });
+    },
+    deleteLogs: function(params) {
+      let _this = this;
+      console.log('Event Handled');
+      let logIdsToDelete = params.map((el) => el._id);
+      console.log(logIdsToDelete);
+
+      let promiseArray = [];
+
+      // logIdsToDelete.forEach(function(log){
+      //   promiseArray.push(axios.delete(`/logs/${log}`));
+      // });
+
+      _this.logs = _this.logs.filter(function(log){
+        return logIdsToDelete.indexOf(log._id) != -1;
+      });
+
+      // axios.all(promiseArray)
+      //   .then(function(result){
+      //     console.log('Logs deleted');
+      //   })
+      //   .catch(function(err){
+      //     console.log(err);
+      //       alert('Error deleting log');
+      //   })
     }
   }
 }

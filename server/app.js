@@ -22,16 +22,8 @@ let myLogger = function(req, res, next) {
     next();
 };
 
-let clientDir;
-if (
-    process.env.CLIENT_MODE &&
-  process.env.CLIENT_MODE.toLowerCase() === 'testing'
-) {
-    clientDir = path.join(__dirname, '../client/build/testing/FitLog/');
-} else {
-    //clientDir = path.join(__dirname, '../client/build/production/FitLog/');
-    clientDir = path.join(__dirname, '../FitLog/');
-}
+let clientDir = path.join(__dirname, '../FitLog/');
+
 let viewsDir = path.join(__dirname, 'views');
 
 //Custom Logger

@@ -2,7 +2,7 @@
   <div>
     <div class="gridHeader">
         <span>Your dail logs</span>
-        <button>Delete</button>
+        <button v-on:click="deleteRows()" v-bind:disabled="!rowsSelected">Delete</button>
         <button>Quick Add</button>
     </div>
     <table>
@@ -18,7 +18,7 @@
       <tr v-for="entry in logs">
         <td v-for="key in columns" 
             v-html="key.render ? key.render(entry[key.name]) : entry[key.name]"
-            v-on:click="selectRow(key, entry)">
+            v-on:custom="selectRow(key, entry)">
             <!-- v-bind:style="{'border-right': key.action ? '1px solid #999' : 'none'}"> -->
         </td>
       </tr>
@@ -29,13 +29,20 @@
 
 <script>
 
+let BigClick = function() {
+  console.log('clicked');
+}
+
 let gridColumns = [{
   width: '1',
   action: true,
   type: 'checkbox',
+  BigClick: function() {
+    console.log('clicked');
+  },
   render: function() {
-    console.log(this.type);
-    return `<input type='${this.type}'></input>`;
+    return `<input type='${this.type}' 
+                    onclick="this.parentNode.dispatchEvent(new Event('custom'));"></input>`;
   }
 },{
   width: '14',
@@ -81,7 +88,9 @@ export default {
   props: ['logs'],
   data () {
     return {
-      columns: gridColumns
+      columns: gridColumns,
+      rowsSelected: false,
+      selection: null
     }
   },
   filters: {
@@ -105,6 +114,35 @@ export default {
       if (column.action && column.type == 'checkbox') {
         log.selected = !log.selected;
         console.log('Row selected: ', log._id);
+      }
+
+      let selected = this.logs.filter(function(log){
+        return log.selected;
+      })
+
+      if (selected && selected.length) {
+        this.rowsSelected = true;
+        this.selection = selected;
+      } else {
+        this.rowsSelected = false;
+        this.selection = null;
+      }
+    },
+    deleteRows: function() {
+      if (this.selection && this.selection.length) {
+        if (confirm('Are you suar?')) {
+          console.log('You pressed OK!');
+          this.$emit('deleteLog', this.selection);
+          let checkboxes = document.getElementsByTagName('input');
+          Object.keys(checkboxes)
+            .forEach(function(key) {
+              if (checkboxes[key].type == 'checkbox') {
+                checkboxes[key].checked = false;
+              }
+            });
+        } else {
+          console.log('You pressed Cancel!');
+        } 
       }
     }
   }
